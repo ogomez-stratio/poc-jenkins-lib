@@ -33,7 +33,7 @@ def call(body) {
 
             stage('build') {
                 script {
-                    echo sh 'pwd&ls -l'
+                    echo action('pwd&ls -l')
                     echo yarnBuilder()
                 }
             }
