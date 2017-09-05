@@ -28,8 +28,7 @@ def call(body) {
     body()
 
     node {
-        // Clean workspace before doing anything
-        deleteDir()
+
         try {
 
             stages {
