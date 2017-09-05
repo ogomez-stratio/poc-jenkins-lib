@@ -33,6 +33,7 @@ def call(body) {
 
             stage('build') {
                 script {
+                    echo sh 'pwd&ls -l'
                     echo yarnBuilder()
                 }
             }
@@ -44,6 +45,7 @@ def call(body) {
                 script {
                     // def props = readJSON file: 'package.json'
                     // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
+
                     echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', 'v1.0.0')
                 }
 
