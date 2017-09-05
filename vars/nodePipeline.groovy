@@ -32,10 +32,8 @@ def call(body) {
         try {
 
             stage('build') {
-                steps {
-                    script {
-                        echo yarnBuilder()
-                    }
+                script {
+                    echo yarnBuilder()
                 }
             }
 
@@ -43,36 +41,30 @@ def call(body) {
                 when {
                     expression { env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/) }
                 }
-                steps {
-                    echo 'Start push image to repo'
-
-                    script {
-                        // def props = readJSON file: 'package.json'
-                        // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
-                        echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', 'v1.0.0')
-                    }
-
-                    echo 'End push image to repo'
+                script {
+                    // def props = readJSON file: 'package.json'
+                    // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
+                    echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', 'v1.0.0')
                 }
+
+                echo 'End push image to repo'
             }
 
             stage('publish tagged release') {
                 when {
                     expression { env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/ }
                 }
-                steps {
-                    echo 'Start push image to repo 2'
+                echo 'Start push image to repo 2'
 
-                    script {
-                        def buildversion = env.TAG_NAME
-                        echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
-                        // sh 'docker login sania.azurecr.io -u $ACRCRED_USR -p $ACRCRED_PSW'
-                        // sh 'docker tag sanitas-dental-bot-clinics sania.azurecr.io/sanitas-dental-bot-clinics:' + buildversion
-                        // sh 'docker push sania.azurecr.io/sanitas-dental-bot-clinics:' + buildversion
-                    }
-
-                    echo 'End push image to repo 2'
+                script {
+                    def buildversion = env.TAG_NAME
+                    echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
+                    // sh 'docker login sania.azurecr.io -u $ACRCRED_USR -p $ACRCRED_PSW'
+                    // sh 'docker tag sanitas-dental-bot-clinics sania.azurecr.io/sanitas-dental-bot-clinics:' + buildversion
+                    // sh 'docker push sania.azurecr.io/sanitas-dental-bot-clinics:' + buildversion
                 }
+
+                echo 'End push image to repo 2'
             }
 
         }catch (err){
