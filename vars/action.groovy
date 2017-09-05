@@ -1,6 +1,6 @@
 def call(String script) {
 
         def shStdout = sh returnStdout: true, script: "${script}"
-        return shStdout + '\n'+'prueba de llamada'
+        return shStdout
 
 }
