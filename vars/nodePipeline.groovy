@@ -1,4 +1,5 @@
-def call() {
+
+def call(body) {
 //    stage('Promote to Production repo') {
 //        milestone label: 'promote to production'
 //        input 'Promote this build to Production?'
@@ -14,11 +15,17 @@ def call() {
 //        }
 //    }
 
-    agent any
-    // environment {
-    // //   ACRCRED = credentials('sania_azure_container_registry')
-    //
-    // }
+//    agent any
+//    // environment {
+//    // //   ACRCRED = credentials('sania_azure_container_registry')
+//    //
+//    // }
+
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+
     stages {
         stage('build') {
             steps {
