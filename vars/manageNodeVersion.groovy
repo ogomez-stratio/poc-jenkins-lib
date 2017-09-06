@@ -16,6 +16,9 @@ def call() {
     } else{
         nextVersion = env.TAG_NAME
     }
+
+    props.version = nextVersion
+
     def jsonOut = JsonOutput.toJson(props)
 
     echo jsonOut
