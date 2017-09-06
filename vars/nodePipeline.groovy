@@ -31,6 +31,9 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
+        withCredentials([UsernamePasswordMultiBinding(string(credentialsId: 'docker-credentials',
+                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))])
+
         try {
 
             stage('Checkout'){
@@ -47,9 +50,6 @@ def call(body) {
             stage('publish build') {
 
                 echo 'Start to push untagged build image to repo'
-
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-credentials',
-                                  usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD']])
 
                 if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
