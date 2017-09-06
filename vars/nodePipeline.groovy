@@ -54,8 +54,8 @@ def call(body) {
                    script {
                        // def props = readJSON file: 'package.json'
                        // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
-
-                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', getNodeVersion)
+                       def buildversion = getNodeVersion()
+                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
                    }
 
                    echo 'End push image to repo'
