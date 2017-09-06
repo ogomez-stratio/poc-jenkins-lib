@@ -20,7 +20,7 @@ def call() {
     echo nextVersion
 
     props.version = nextVersion
-    props.store(propsFile.newWriter(), null)
+    props.store(props.newWriter(), null)
 
     return nextVersion
 }
