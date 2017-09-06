@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurperClassic
 
-def call(String tagName, String buildNumber) {
+def call() {
 
     echo 'Manage version Start'
 
