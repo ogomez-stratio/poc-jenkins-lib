@@ -39,6 +39,11 @@ def call(body) {
                 checkout scm
             }
 
+            stage('Version Management'){
+
+              echo manageNodeVersion()
+            }
+
             stage('build') {
                 script {
                     echo yarnBuilder()
@@ -49,32 +54,13 @@ def call(body) {
 
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials',
                         usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
-                    //available as an env variable, but will be masked if you try to print it out any which way
-                    sh 'echo $PASSWORD'
-                    echo "${env.USERNAME}"
-
-
-                    echo 'Start to push untagged build image to repo'
-
-                    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
-
-                        script {
-                            echo dockerBuilder("${config.dockerRepo}","${config.containerName}", "${env.ACR_USR}",
-                                    "${env.ACR_PWD}", getNodeVersion())
-                        }
-
-                        echo 'End push untagged build image to repo'
-                    } else {
-
-                        echo 'Start push tagged build image to repo'
-
-                        script {
-                            def buildversion = env.TAG_NAME
-                            echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
-                        }
-
-                        echo 'End push tagged build image to repo 2'
+                    echo 'Start to push image to repo'
+                    script {
+                        echo dockerBuilder("${config.dockerRepo}","${config.containerName}", "${env.ACR_USR}",
+                                "${env.ACR_PWD}", getNodeVersion())
                     }
+                    echo 'End to push image to repo'
+
                 }
             }
 
