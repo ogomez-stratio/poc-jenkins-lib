@@ -40,14 +40,11 @@ def call(body) {
 
             stage('build') {
                 script {
-                    echo action('pwd&ls -l')
                     echo yarnBuilder()
                 }
             }
 
             stage('publish untagged build') {
-
-                echo env.TAG_NAME
 
                 when {
 
@@ -58,7 +55,7 @@ def call(body) {
                     // def props = readJSON file: 'package.json'
                     // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
 
-                    echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', 'v1.0.0')
+                    echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', getNodeVersion)
                 }
 
                 echo 'End push image to repo'
@@ -73,9 +70,6 @@ def call(body) {
                 script {
                     def buildversion = env.TAG_NAME
                     echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
-                    // sh 'docker login sania.azurecr.io -u $ACRCRED_USR -p $ACRCRED_PSW'
-                    // sh 'docker tag sanitas-dental-bot-clinics sania.azurecr.io/sanitas-dental-bot-clinics:' + buildversion
-                    // sh 'docker push sania.azurecr.io/sanitas-dental-bot-clinics:' + buildversion
                 }
 
                 echo 'End push image to repo 2'
