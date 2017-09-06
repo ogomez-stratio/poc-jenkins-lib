@@ -1,8 +1,14 @@
-def call(String repo,String containerName, String user, String password) {
+def call(String dockerRepo,String containerName, String dockerUser, String dockerPassword, String version) {
 
     def build = action('docker build -t '+"${containerName }"+' .')
-    def login= action('docker login '+' -u '+"${user}"+' -p ' +"${password}")
-    def tag = action('docker tag '+"${containerName}"+' '+"${repo}"+'/'+"${containerName}"+':'+ getNodeVersion())
-    def push = action('docker push '+"${repo}"+'/'+"${containerName}"+':'+getNodeVersion())
+    if (dockerRepo != null || dockerRepo == '') {
+        def login = action('docker login ' + ' -u ' + "${dockerUser}" + ' -p ' + "${dockerPassword}")
+        def tag = action('docker tag ' + "${containerName}" + ' ' + "${dockerRepo}" + '/' + "${containerName}" + ':' + version)
+        def push = action('docker push ' + "${dockerRepo}" + '/' + "${containerName}" + ':' + version)
+    } else{
+        def login = action('docker login ' + ' -u '+"${dockerRepo}" + "${dockerUser}" + ' -p ' + "${dockerPassword}")
+        def tag = action('docker tag ' + "${containerName}" + ' ' + "${dockerRepo}" + '/' + "${containerName}" + ':' + version)
+        def push = action('docker push ' + "${dockerRepo}" + '/' + "${containerName}" + ':' + version)
+    }
     return build + login + tag + push
 }
