@@ -32,7 +32,7 @@ def call(body) {
         currentBuild.result = 'SUCCESS'
 
         withCredentials([usernamePassword(string(credentialsId: 'docker-credentials',
-                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))]){
+                variable: 'ACRCRED'))]){
             echo "${env.ACRCRED_USR}"
         }
 
