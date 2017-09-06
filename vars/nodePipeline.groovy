@@ -31,17 +31,8 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
-//        withCredentials([usernamePasswordMultiBinding(string(credentialsId: 'docker-credentials',
-//                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))])
-
-
-// Basic example
-        withCredentials([usernamePassword(credentialsId: 'docker-credentials',
-                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            //available as an env variable, but will be masked if you try to print it out any which way
-            sh 'echo $PASSWORD'
-            echo "${env.USERNAME}"
-        }
+        withCredentials([usernamePasswordMultiBinding(string(credentialsId: 'docker-credentials',
+                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))])
 
         try {
 
@@ -63,7 +54,7 @@ def call(body) {
                 if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                     script {
-                        echo dockerBuilder("${config.dockerRepo}", env.ACRCRED_USR, env.ACRCRED_PWD,getNodeVersion())
+                        echo dockerBuilder("${config.dockerRepo}", "${env.ACRCRED_USR}", "${env.ACRCRED_PWD}",getNodeVersion())
                     }
 
                     echo 'End push untagged build image to repo'
