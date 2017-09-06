@@ -32,7 +32,9 @@ def call(body) {
         currentBuild.result = 'SUCCESS'
 
         withCredentials([usernamePassword(string(credentialsId: 'docker-credentials',
-                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))])
+                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))]){
+            echo "${env.ACRCRED_USR}"
+        }
 
         try {
 
@@ -54,7 +56,7 @@ def call(body) {
                 if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                     script {
-                        echo dockerBuilder("${config.dockerRepo}", "${env.ACRCRED_USR}", "${env.ACRCRED_PWD}",getNodeVersion())
+     //                   echo dockerBuilder("${config.dockerRepo}", "${env.ACRCRED_USR}", "${env.ACRCRED_PWD}",getNodeVersion())
                     }
 
                     echo 'End push untagged build image to repo'
