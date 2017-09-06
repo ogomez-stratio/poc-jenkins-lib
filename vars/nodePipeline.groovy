@@ -46,19 +46,20 @@ def call(body) {
 
             stage('publish untagged build') {
 
-                step(when {
 
-                    expression { env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/) }
-                })
                 echo 'Start to push image to repo'
-                script {
-                    // def props = readJSON file: 'package.json'
-                    // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
 
-                    echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', getNodeVersion)
-                }
+               if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
-                echo 'End push image to repo'
+                   script {
+                       // def props = readJSON file: 'package.json'
+                       // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
+
+                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', getNodeVersion)
+                   }
+
+                   echo 'End push image to repo'
+               }
             }
 
             stage('publish tagged release') {
