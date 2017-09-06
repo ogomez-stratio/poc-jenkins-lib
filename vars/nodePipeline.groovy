@@ -31,9 +31,6 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-credentials',
-                          usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD']])
-
         try {
 
             stage('Checkout'){
@@ -49,27 +46,29 @@ def call(body) {
 
             stage('publish build') {
 
-
                 echo 'Start to push untagged build image to repo'
 
-               if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-credentials',
+                                  usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD']])
 
-                   script {
-                       echo dockerBuilder("${config.dockerRepo}", env.ACRCRED_USR, env.ACRCRED_PWD,getNodeVersion())
-                   }
+                if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
-                   echo 'End push untagged build image to repo'
-               } else {
+                    script {
+                        echo dockerBuilder("${config.dockerRepo}", env.ACRCRED_USR, env.ACRCRED_PWD,getNodeVersion())
+                    }
 
-                   echo 'Start push tagged build image to repo'
+                    echo 'End push untagged build image to repo'
+                } else {
 
-                   script {
-                       def buildversion = env.TAG_NAME
-                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
-                   }
+                    echo 'Start push tagged build image to repo'
 
-                   echo 'End push tagged build image to repo 2'
-               }
+                    script {
+                        def buildversion = env.TAG_NAME
+                        echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
+                    }
+
+                    echo 'End push tagged build image to repo 2'
+                }
             }
 
         }catch (err){
