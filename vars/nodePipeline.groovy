@@ -30,6 +30,7 @@ def call(body) {
     node {
 
         currentBuild.result = 'SUCCESS'
+        def ACRCRED = credentials(config.acrCredentials)
 
         try {
 
@@ -52,7 +53,7 @@ def call(body) {
                if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                    script {
-                       echo dockerBuilder("${config.dockerRepo}", "${config.containerName}", "${config.dockerUser}", "${config.dockerPassword}",getNodeVersion())
+                       echo dockerBuilder("${config.dockerRepo}", "${config.containerName}", "$ACRCRED_USR", "$ACRCRED_PSW",getNodeVersion())
                    }
 
                    echo 'End push untagged build image to repo'
@@ -68,20 +69,6 @@ def call(body) {
                    echo 'End push tagged build image to repo 2'
                }
             }
-
-//            stage('publish tagged release') {
-//                when {
-//                    expression { env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/ }
-//                }
-//                echo 'Start push image to repo 2'
-//
-//                script {
-//                    def buildversion = env.TAG_NAME
-//                    echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
-//                }
-//
-//                echo 'End push image to repo 2'
-//            }
 
         }catch (err){
             currentBuild.result = 'FAILED'
