@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurperClassic
 
-def call() {
+def call(String tagName, String buildNumber) {
 
     echo 'Manage version Start'
 
@@ -12,7 +12,7 @@ def call() {
 
     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
-        nextVersion = props.version + + '.build-' + env.BUILD_NUMBER
+        nextVersion = props.version + '.build-' + env.BUILD_NUMBER
     } else{
         nextVersion = env.TAG_NAME
     }
