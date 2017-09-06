@@ -17,9 +17,9 @@ def call() {
         nextVersion = env.TAG_NAME
     }
 
-    echo 'despues del if'
+    echo nextVersion
 
-    props.setProperty('version', nextVersion)
+    props.version = nextVersion
     props.store(propsFile.newWriter(), null)
 
     return nextVersion
