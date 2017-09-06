@@ -31,7 +31,7 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
-        withCredentials([usernamePasswordMultiBinding(string(credentialsId: 'docker-credentials',
+        withCredentials([usernamePassword(string(credentialsId: 'docker-credentials',
                 usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))]) {
 
             try {
