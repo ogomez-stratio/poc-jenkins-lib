@@ -31,8 +31,8 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
-        withCredentials([usernamePassword(string(credentialsId: 'docker-credentials',
-                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))])
+        withCredentials([usernamePassword(credentialsId: 'docker-credentials',
+                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD')])
 
         try {
 
