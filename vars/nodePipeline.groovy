@@ -29,7 +29,14 @@ def call(body) {
 
     node {
 
+        currentBuild.result = 'SUCCESS'
+
         try {
+
+            stage('Checkout'){
+
+                checkout scm
+            }
 
             stage('build') {
                 script {
