@@ -16,7 +16,7 @@ def call() {
     } else{
         nextVersion = env.TAG_NAME
     }
-    new File("package.json").write(props)
+    new File("package.json").write(JsonOutput.prettyPrint(props))
 
     return nextVersion
 }
