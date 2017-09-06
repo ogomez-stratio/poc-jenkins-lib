@@ -1,5 +1,3 @@
-
-
 def call(body) {
 //    stage('Promote to Production repo') {
 //        milestone label: 'promote to production'
@@ -32,34 +30,34 @@ def call(body) {
         currentBuild.result = 'SUCCESS'
 
 
-            try {
+        try {
 
-                stage('Checkout') {
+            stage('Checkout') {
 
-                    checkout scm
+                checkout scm
+            }
+
+            stage('build') {
+                script {
+                    echo yarnBuilder()
                 }
+            }
 
-                stage('build') {
-                    script {
-                        echo yarnBuilder()
-                    }
-                }
+            stage('publish build') {
 
-                stage('publish build') {
+                withCredentials([usernamePassword(credentialsId: 'docker-credentials',
+                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    //available as an env variable, but will be masked if you try to print it out any which way
+                    sh 'echo $PASSWORD'
+                    echo "${env.USERNAME}"
 
-                    withCredentials([usernamePassword(credentialsId: 'docker-credentials',
-                            usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        //available as an env variable, but will be masked if you try to print it out any which way
-                        sh 'echo $PASSWORD'
-                        echo "${env.USERNAME}"
-                    }
 
                     echo 'Start to push untagged build image to repo'
 
                     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                         script {
-                            echo dockerBuilder("${config.dockerRepo}", "${env.USERNAME}","${env.PASSWORD}", getNodeVersion())
+                            echo dockerBuilder("${config.dockerRepo}", "${env.USERNAME}", "${env.PASSWORD}", getNodeVersion())
                         }
 
                         echo 'End push untagged build image to repo'
@@ -75,11 +73,12 @@ def call(body) {
                         echo 'End push tagged build image to repo 2'
                     }
                 }
-
-            } catch (err) {
-                currentBuild.result = 'FAILED'
-                throw err
             }
 
+        } catch (err) {
+            currentBuild.result = 'FAILED'
+            throw err
         }
+
+    }
 }
