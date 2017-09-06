@@ -52,10 +52,7 @@ def call(body) {
                if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                    script {
-                       // def props = readJSON file: 'package.json'
-                       // def buildversion = props.version + '.build-' + env.BUILD_NUMBER
-                       def buildversion = getNodeVersion()
-                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
+                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
                    }
 
                    echo 'End push untagged build image to repo'
@@ -65,7 +62,7 @@ def call(body) {
 
                    script {
                        def buildversion = env.TAG_NAME
-                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al', buildversion)
+                       echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
                    }
 
                    echo 'End push tagged build image to repo 2'

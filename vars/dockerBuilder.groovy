@@ -1,4 +1,4 @@
-def call(String repo,String containerName, String user, String password, String buildVersion) {
+def call(String repo,String containerName, String user, String password) {
 
     def build = action('docker build -t '+"${containerName }"+' .')
     def login= action('docker login '+' -u '+"${user}"+' -p ' +"${password}")
