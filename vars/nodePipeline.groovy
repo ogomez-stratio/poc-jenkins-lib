@@ -46,10 +46,10 @@ def call(body) {
 
             stage('publish untagged build') {
 
-                when {
+                step(when {
 
                     expression { env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/) }
-                }
+                })
                 echo 'Start to push image to repo'
                 script {
                     // def props = readJSON file: 'package.json'
