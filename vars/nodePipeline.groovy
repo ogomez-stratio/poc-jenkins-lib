@@ -52,7 +52,7 @@ def call(body) {
                if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                    script {
-                       echo dockerBuilder(${config.dockerRepo}, ${config.containerName}, ${config.dockerUser}, ${config.dockerPassword},getNodeVersion())
+                       echo dockerBuilder("${config.dockerRepo}", "${config.containerName}", "${config.dockerUser}", "${config.dockerPassword}",getNodeVersion())
                    }
 
                    echo 'End push untagged build image to repo'
