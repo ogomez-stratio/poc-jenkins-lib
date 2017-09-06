@@ -31,51 +31,59 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
-        withCredentials([usernamePassword(string(credentialsId: 'docker-credentials',
-                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))]) {
+//        withCredentials([usernamePasswordMultiBinding(string(credentialsId: 'docker-credentials',
+//                usernameVariable: 'ACRCRED_USR', passwordVariable: 'ACRCRED_PWD'))])
 
-            try {
 
-                stage('Checkout') {
+// Basic example
+        withCredentials([usernamePassword(credentialsId: 'docker-credentials',
+                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            //available as an env variable, but will be masked if you try to print it out any which way
+            sh 'echo $PASSWORD'
+            echo "${env.USERNAME}"
+        }
 
-                    checkout scm
-                }
+        try {
 
-                stage('build') {
-                    script {
-                        echo yarnBuilder()
-                    }
-                }
+            stage('Checkout'){
 
-                stage('publish build') {
-
-                    echo 'Start to push untagged build image to repo'
-
-                    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
-
-                        script {
-                            echo dockerBuilder("${config.dockerRepo}", env.ACRCRED_USR, env.ACRCRED_PWD, getNodeVersion())
-                        }
-
-                        echo 'End push untagged build image to repo'
-                    } else {
-
-                        echo 'Start push tagged build image to repo'
-
-                        script {
-                            def buildversion = env.TAG_NAME
-                            echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
-                        }
-
-                        echo 'End push tagged build image to repo 2'
-                    }
-                }
-
-            } catch (err) {
-                currentBuild.result = 'FAILED'
-                throw err
+                checkout scm
             }
 
+            stage('build') {
+                script {
+                    echo yarnBuilder()
+                }
+            }
+
+            stage('publish build') {
+
+                echo 'Start to push untagged build image to repo'
+
+                if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
+
+                    script {
+                        echo dockerBuilder("${config.dockerRepo}", env.ACRCRED_USR, env.ACRCRED_PWD,getNodeVersion())
+                    }
+
+                    echo 'End push untagged build image to repo'
+                } else {
+
+                    echo 'Start push tagged build image to repo'
+
+                    script {
+                        def buildversion = env.TAG_NAME
+                        echo dockerBuilder('ogomezstratio', 'test-node-app', 'ogomezstratio', 'og1108al')
+                    }
+
+                    echo 'End push tagged build image to repo 2'
+                }
+            }
+
+        }catch (err){
+            currentBuild.result = 'FAILED'
+            throw err
         }
+
     }
 }
