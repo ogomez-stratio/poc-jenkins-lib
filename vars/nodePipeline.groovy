@@ -1,3 +1,5 @@
+
+
 def call(body) {
 //    stage('Promote to Production repo') {
 //        milestone label: 'promote to production'
@@ -46,7 +48,7 @@ def call(body) {
             stage('publish build') {
 
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials',
-                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
                     //available as an env variable, but will be masked if you try to print it out any which way
                     sh 'echo $PASSWORD'
                     echo "${env.USERNAME}"
@@ -57,7 +59,7 @@ def call(body) {
                     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
                         script {
-                            echo dockerBuilder("${config.dockerRepo}", "${env.USERNAME}", "${env.PASSWORD}", getNodeVersion())
+                            echo dockerBuilder('', "${env.ACR_USR}", "${env.ACR_PWD}", getNodeVersion())
                         }
 
                         echo 'End push untagged build image to repo'
