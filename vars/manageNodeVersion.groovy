@@ -2,6 +2,8 @@ import groovy.json.JsonSlurperClassic
 
 def call(){
 
+    echo 'Manage version Start'
+
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
     def nextVersion
@@ -15,4 +17,6 @@ def call(){
 
     props.setProperty('version', nextVersion)
     props.store(propsFile.newWriter(), null)
+
+    return nextVersion
 }
