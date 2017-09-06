@@ -18,6 +18,8 @@ def call() {
     }
     def jsonOut = JsonOutput.toJson(props)
 
+    echo jsonOut
+
     writeFile(file:'package.json', text: jsonOut)
 
     return nextVersion
