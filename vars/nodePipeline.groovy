@@ -42,6 +42,7 @@ def call(body) {
             stage('Version Management'){
 
               echo manageNodeVersion()
+              echo getNodeVersion()
             }
 
             stage('build') {

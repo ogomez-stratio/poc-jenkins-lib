@@ -1,4 +1,4 @@
-import groovy.json.JsonSlurperClassic
+import groovy.json.*
 
 def call() {
 
@@ -16,11 +16,6 @@ def call() {
     } else{
         nextVersion = env.TAG_NAME
     }
-
-    echo nextVersion
-
-    props.version = nextVersion
-    props.store(props.newWriter(), null)
 
     return nextVersion
 }
