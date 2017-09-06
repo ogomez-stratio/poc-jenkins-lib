@@ -31,12 +31,7 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
-        withCredentials([usernamePassword(credentialsId: 'docker-credentials',
-                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            //available as an env variable, but will be masked if you try to print it out any which way
-            sh 'echo $PASSWORD'
-            echo "${env.USERNAME}"
-        }
+
             try {
 
                 stage('Checkout') {
@@ -51,6 +46,13 @@ def call(body) {
                 }
 
                 stage('publish build') {
+
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials',
+                            usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        //available as an env variable, but will be masked if you try to print it out any which way
+                        sh 'echo $PASSWORD'
+                        echo "${env.USERNAME}"
+                    }
 
                     echo 'Start to push untagged build image to repo'
 
