@@ -11,17 +11,15 @@ def call() {
     def parser = /(\d+).(\d+).(\d+)/
     def match = props.version =~ parser
 
+    echo match.toString()
+
     def cleanVersion
 
     echo "if match"
+
     if(match.matches()) {
 
         echo "it matches"
-
-        echo match[0]
-
-        cleanVersion = match[0]
-
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
