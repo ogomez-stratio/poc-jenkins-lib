@@ -53,6 +53,8 @@ def call(body) {
                  currentBuild.result = 'FAILED'
              }
 
+             echo "salimos del manage"
+
             }
 
 

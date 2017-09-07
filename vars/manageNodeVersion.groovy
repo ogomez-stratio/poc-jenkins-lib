@@ -19,12 +19,14 @@ def call() {
 
             nextVersion = match[0][0] + '.build-' + env.BUILD_NUMBER
 
+            echo "next build:"+nextVersion
+
         } else{
 
             nextVersion = match[0][0]
-        }
 
-        echo nextVersion
+            echo "next tag: "+nextVersion
+        }
 
         props.version = nextVersion
 
@@ -34,9 +36,13 @@ def call() {
 
         writeFile(file:'package.json', text: jsonOut)
 
+        echo "despues del write"
+
         return true
 
     } else {
+
+        echo "error"
 
         return false
     }
