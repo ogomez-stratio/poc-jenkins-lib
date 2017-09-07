@@ -16,7 +16,7 @@ def call() {
 
         echo "it matches"
 
-        def v = match.group().toString()
+        String v = match.group().toString()
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
@@ -36,7 +36,7 @@ def call() {
 
         echo jsonOut
 
-        //writeFile(file:'package.json', text: jsonOut)
+        writeFile(file:'package.json', text: jsonOut)
 
         echo "despues del write"
 
