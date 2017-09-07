@@ -36,7 +36,7 @@ def call() {
 
         echo jsonOut
 
-        writeFile(file:'package.json', text: jsonOut)
+        //writeFile(file:'package.json', text: jsonOut)
 
         echo "despues del write"
 
