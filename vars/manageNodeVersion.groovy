@@ -17,13 +17,13 @@ def call() {
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
-            nextVersion = match[0][0] + '.build-' + env.BUILD_NUMBER
+            nextVersion = match[0][0].toString() + '.build-' + env.BUILD_NUMBER
 
             echo "next build:"+nextVersion
 
         } else{
 
-            nextVersion = match[0][0]
+            nextVersion = match[0][0].toString()
 
             echo "next tag: "+nextVersion
         }
