@@ -1,6 +1,5 @@
 import groovy.json.*
 
-@NonCPS
 def call() {
 
     echo 'Manage version Start'
@@ -8,23 +7,11 @@ def call() {
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
 
-    def parser = /(\d+\.)(\d+\.)(\d)/
-    def match = (props.version =~ parser)
-
-    echo "1"
-
-    def cleanVersion
     def nextVersion
 
-    if(match.matches()) {
-        echo "2"
-        cleanVersion = match.group()
-    }
-    else{
-        echo "error"
-        return "error"
-    }
-    echo "it matches"
+    def cleanVersion = getCleanVersion(props.version)
+
+    if (cleanVersion == 'error') return 'error'
 
     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
@@ -52,3 +39,18 @@ def call() {
 
 }
 
+@NonCPS
+def getCleanVersion(String version){
+
+    def parser = /(\d+\.)(\d+\.)(\d)/
+    def match = (version =~ parser)
+
+    if(match.matches()) {
+        echo match.group()
+        return match.group()
+    }
+    else{
+        echo "error"
+        return "error"
+    }
+}
