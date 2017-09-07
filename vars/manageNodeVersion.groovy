@@ -6,27 +6,23 @@ def call() {
 
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
-    def nextVersion = null
 
     def parser = /(\d+\.)(\d+\.)(\d)/
-    def match = props.version =~ parser
+    def match = (props.version =~ parser)
 
     if(match.matches()) {
 
-
         echo "it matches"
-
-        String v = match.group().toString()
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
-            nextVersion = v + '.build-' + env.BUILD_NUMBER
+            nextVersion = match.group() + '.build-' + env.BUILD_NUMBER
 
             echo "next build:"+nextVersion
 
         } else{
 
-            nextVersion = v
+            nextVersion = match.group()
             echo "next tag: "+nextVersion
         }
 
