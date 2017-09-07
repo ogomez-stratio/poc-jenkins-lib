@@ -4,7 +4,7 @@ def call(String gitRepo, String gitCredentialsId){
 
         action('git add .')
         action('git commit -m \"Jenkins Build: '+env.BUILD_NUMBER+' \"')
-        action('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@'+gitRepo+ 'HEAD: master')
-
+        action('git status')
+        action('git remote -v')
     }
 }
