@@ -16,7 +16,7 @@ def call() {
 
         echo "it matches"
 
-        def v = match.group()
+        def v = match.group().toString()
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
