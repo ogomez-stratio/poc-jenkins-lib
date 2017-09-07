@@ -38,13 +38,13 @@ def call() {
 
         echo "despues del write"
 
-        return true
+        return nextVersion
 
     } else {
 
         echo "error"
 
-        return false
+        return "error"
     }
 
 
