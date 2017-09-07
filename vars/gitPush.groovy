@@ -4,7 +4,7 @@ def call(String gitRepo, String gitCredentialsId){
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)) {
 
-            action('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@'+gitRepo+' origin master')
+            action('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@'+gitRepo+' master')
 
         }else {
 
