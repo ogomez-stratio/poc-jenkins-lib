@@ -9,7 +9,7 @@ def call() {
 
     def match = version =~ parser
     if(match.matches()) {
-        def (major, minor, revision, build) = ['major', 'minor', 'revision', 'build'].collect { match.group(it) }
+        def (major, minor, revision, build) = ['major', 'minor', 'revision', 'build'].collect{match.group(version)}
     }
 
     echo "fin test"
