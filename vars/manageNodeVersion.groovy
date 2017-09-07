@@ -8,15 +8,23 @@ def call() {
     def props = new JsonSlurperClassic().parseText(json)
     def nextVersion
 
-    echo 'antes del if'
+    def parser = /(?<major>\d+).(?<minor>\d+).(?<revision>\d+)-(?<build>\d+)/
+    def match = props.version =~ parser
+
+
+    if(match.matches()) {
+        def (major, minor, revision, build) = ['major', 'minor', 'revision', 'build'].collect { match.group(it) }
+    }
+
+    echo match
 
     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
-        cleanVersion =(props.version =~ /^\d+\.\d+\.\d+$/)
-        echo cleanVersion
-        nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
+        nextVersion = match + '.build-' + env.BUILD_NUMBER
+
     } else{
-        nextVersion = env.TAG_NAME
+
+        nextVersion = match
     }
 
     props.version = nextVersion
