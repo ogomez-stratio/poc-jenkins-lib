@@ -13,8 +13,12 @@ def call() {
 
     def cleanVersion
 
-
+    echo "if match"
     if(match.matches()) {
+
+        echo "it matches"
+
+        echo match[0]
 
         cleanVersion = match[0]
 
@@ -25,7 +29,7 @@ def call() {
 
         } else{
 
-            nextVersion = major+'.'+minor+'.'+revision
+            nextVersion = cleanVersion
         }
 
         echo nextVersion
