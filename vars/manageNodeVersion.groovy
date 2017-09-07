@@ -8,10 +8,10 @@ def call() {
     def props = new JsonSlurperClassic().parseText(json)
     def nextVersion = null
 
-    def parser = /(\d+).(\d+).(\d+)/
+    def parser = /(\d+\.)(\d+\.)(\d)/
     def match = props.version =~ parser
 
-    echo "match"+match[0][1]
+    echo "match: "+match[0][0]
 
     echo match.toString()
 
