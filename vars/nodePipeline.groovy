@@ -77,9 +77,6 @@ def call(body) {
              */
             stage('Push new version to Git') {
 
-                echo "${config.gitRepo}"
-                echo "${config.gitCredentials}"
-
                 gitPush("${config.gitRepo}","${config.gitCredentials}")
             }
 
