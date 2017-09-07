@@ -11,7 +11,7 @@ def call() {
     def parser = /(\d+).(\d+).(\d+)/
     def match = props.version =~ parser
 
-    echo "match"+match[0]
+    echo "match"+match[0][1]
 
     echo match.toString()
 
