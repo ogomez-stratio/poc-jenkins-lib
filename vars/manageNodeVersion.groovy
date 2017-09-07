@@ -10,10 +10,14 @@ def call() {
 
     def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (props.version =~ parser)
+
+    echo "1"
+
     def cleanVersion
     def nextVersion
 
-    if(match.find())
+    if(match.matches())
+        echo "2"
         cleanVersion = match.group()
     else{
         echo "error"
