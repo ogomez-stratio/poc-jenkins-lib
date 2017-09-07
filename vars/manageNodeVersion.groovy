@@ -2,8 +2,6 @@ import groovy.json.*
 
 def call() {
 
-    echo 'Manage version Start'
-
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
 
@@ -13,17 +11,12 @@ def call() {
 
     if (cleanVersion == 'error') return 'error'
 
-    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
+    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/))
 
         nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
 
-        echo "next build:"+nextVersion
-
-    } else{
-
+    else
         nextVersion ='v'+cleanVersion
-        echo "next tag: "+nextVersion
-    }
 
     props.version = nextVersion
 
@@ -33,9 +26,7 @@ def call() {
 
     writeFile(file:'package.json', text: jsonOut)
 
-    echo "despues del write"
-
-    return nextVersion
+    return "Version to build: " + nextVersion
 
 }
 
@@ -49,8 +40,5 @@ def getCleanVersion(String version){
         echo match.group()
         return match.group()
     }
-    else{
-        echo "error"
-        return "error"
-    }
+    else return "error"
 }
