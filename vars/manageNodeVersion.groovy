@@ -21,7 +21,7 @@ def call() {
 
     } else{
 
-        nextVersion = cleanVersion
+        nextVersion ='v'+cleanVersion
         echo "next tag: "+nextVersion
     }
 
