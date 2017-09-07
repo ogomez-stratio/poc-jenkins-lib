@@ -12,7 +12,9 @@ def call() {
 
     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
-        nextVersion = props.version + '.build-' + env.BUILD_NUMBER
+        cleanVersion =(props.version =~ /^\d+\.\d+\.\d+$/)
+        echo cleanVersion
+        nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
     } else{
         nextVersion = env.TAG_NAME
     }

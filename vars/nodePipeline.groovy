@@ -34,23 +34,42 @@ def call(body) {
 
         try {
 
+            /**
+             * Checkout from scm to prepare the workspace for the pipeline
+             */
             stage('Checkout') {
 
                 checkout scm
             }
 
+            /**
+             * Calculate the next version (build or tag) and write it in the package.json
+             */
+
             stage('Version Management'){
 
               echo manageNodeVersion()
-              echo getNodeVersion()
+
             }
 
+
+            /**
+             * Install yarn dependencies and build the proyect with the new version.
+             */
             stage('build') {
                 script {
                     echo yarnBuilder()
                 }
             }
 
+            /**
+             * TODO TEST PARALLEL STAGE
+            */
+
+
+            /**
+             * Build, Tag and publish the Docker Image into Docker Repository (Currently Azure Container Registry)
+             */
             stage('publish build') {
 
                 withCredentials([usernamePassword(credentialsId: 'docker-credentials',
@@ -63,6 +82,16 @@ def call(body) {
                     echo 'End to push image to repo'
 
                 }
+            }
+
+            /**
+             * Push the new version to git repository.
+             * Example of new build 1.0.1.build-83
+             * Example of new TAG (stable version capable promote to productive environments
+             */
+            stage('Push new version to Git') {
+
+
             }
 
         } catch (err) {
