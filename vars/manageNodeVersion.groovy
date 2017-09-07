@@ -22,8 +22,6 @@ def call() {
 
     def jsonOut = JsonOutput.toJson(props)
 
-    echo jsonOut
-
     writeFile(file:'package.json', text: jsonOut)
 
     return "Version to build: " + nextVersion
@@ -37,7 +35,6 @@ def getCleanVersion(String version){
     def match = (version =~ parser)
 
     if(match.matches()) {
-        echo match.group()
         return match.group()
     }
     else return "error"

@@ -26,13 +26,15 @@ def call(body) {
 
             stage('Version Management'){
 
-             if (manageNodeVersion() == 'error'){
+             def result = manageNodeVersion()
+
+             if (result == 'error'){
+
                  echo "incorrect version format in package.json"
                  currentBuild.result = 'FAILED'
                  throw new Exception("Invalid version format in package.json")
-             }
 
-             echo "salimos del manage"
+             } else echo result
 
             }
 
