@@ -6,32 +6,44 @@ def call() {
 
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
-    def nextVersion
+    def nextVersion = null
 
-    def parser = /(?<major>\d+).(?<minor>\d+).(?<revision>\d+)/
+    def parser = /(\d+).(\d+).(\d+)/
     def match = props.version =~ parser
+
+    def cleanVersion
 
 
     if(match.matches()) {
-        def (major, minor, revision) = ['major', 'minor', 'revision'].collect { match.group(it) }
+
+        cleanVersion = match[0]
+
+
+        if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
+
+            nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
+
+        } else{
+
+            nextVersion = major+'.'+minor+'.'+revision
+        }
+
+        echo nextVersion
+
+        props.version = nextVersion
+
+        def jsonOut = JsonOutput.toJson(props)
+
+        echo jsonOut
+
+        writeFile(file:'package.json', text: jsonOut)
+
+        return true
+
+    } else {
+
+        return false
     }
 
-    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
-        nextVersion = major+'.'+minor+'.'+revision + '.build-' + env.BUILD_NUMBER
-
-    } else{
-
-        nextVersion = major+'.'+minor+'.'+revision
-    }
-
-    props.version = nextVersion
-
-    def jsonOut = JsonOutput.toJson(props)
-
-    echo jsonOut
-
-    writeFile(file:'package.json', text: jsonOut)
-
-    return nextVersion
 }

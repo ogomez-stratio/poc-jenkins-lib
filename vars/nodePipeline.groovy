@@ -48,7 +48,10 @@ def call(body) {
 
             stage('Version Management'){
 
-              echo manageNodeVersion()
+             if (!manageNodeVersion()){
+                 echo "incorrect version format in package.json"
+                 currentBuild.result = 'FAILED'
+             }
 
             }
 
