@@ -16,9 +16,10 @@ def call() {
     def cleanVersion
     def nextVersion
 
-    if(match.matches())
+    if(match.matches()) {
         echo "2"
         cleanVersion = match.group()
+    }
     else{
         echo "error"
         return "error"
