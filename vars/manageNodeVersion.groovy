@@ -2,26 +2,16 @@ import groovy.json.*
 
 def call() {
 
-    echo "test"
-    def version = '10.01.03-13'
-
-    def parser = /(?<major>\d+).(?<minor>\d+).(?<revision>\d+)-(?<build>\d+)/
-
-    def match = version =~ parser
-    if(match.matches()) {
-        def (major, minor, revision, build) = ['major', 'minor', 'revision', 'build'].collect{match.group(version)}
-    }
-
-    echo "fin test"
-
     echo 'Manage version Start'
 
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
     def nextVersion = null
 
-    def regExp = /(\d+).(\d+).(\d+)/
-    def matcher = props.version =~ parser
+    def parser = /(\d+).(\d+).(\d+)/
+    def match = props.version =~ parser
+
+    echo "match"+match[0]
 
     echo match.toString()
 
