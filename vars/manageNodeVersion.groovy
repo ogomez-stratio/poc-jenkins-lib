@@ -9,7 +9,7 @@ def call() {
     def nextVersion = null
 
     def parser = /(\d+\.)(\d+\.)(\d)/
-    def match = props.version.findfirst
+    def match = props.version =~ parser
 
     if(match.matches()) {
 
@@ -27,7 +27,6 @@ def call() {
         } else{
 
             nextVersion = v
-
             echo "next tag: "+nextVersion
         }
 
