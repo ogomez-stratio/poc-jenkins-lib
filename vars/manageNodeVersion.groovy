@@ -12,10 +12,6 @@ def call() {
         def (major, minor, revision, build) = ['major', 'minor', 'revision', 'build'].collect { match.group(it) }
     }
 
-    echo major
-    echo minor
-    echo revision
-
     echo "fin test"
 
     echo 'Manage version Start'
