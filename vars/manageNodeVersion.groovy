@@ -1,5 +1,6 @@
 import groovy.json.*
 
+@NonCPS
 def call() {
 
     echo 'Manage version Start'
