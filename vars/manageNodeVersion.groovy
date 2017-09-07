@@ -9,14 +9,14 @@ def call() {
     def nextVersion = null
 
     def parser = /(\d+\.)(\d+\.)(\d)/
-    def match = props.version =~ parser
+    def match = props.version.findfirst
 
     if(match.matches()) {
 
 
         echo "it matches"
 
-        def v = match[0][0].toString()
+        def v = match.group()
 
         if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/)){
 
