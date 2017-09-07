@@ -1,26 +1,4 @@
-
-
 def call(body) {
-//    stage('Promote to Production repo') {
-//        milestone label: 'promote to production'
-//        input 'Promote this build to Production?'
-//
-//        node {
-//            Artifactory.server(getArtifactoryServerID()).promote([
-//                    'buildName'  : build_name,
-//                    'buildNumber': build_number,
-//                    'targetRepo' : target_repo,
-//                    'sourceRepo' : source_repo,
-//                    'copy'       : true,
-//            ])
-//        }
-//    }
-
-//    agent any
-//    // environment {
-//    // //   ACRCRED = credentials('sania_azure_container_registry')
-//    //
-//    // }
 
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -48,7 +26,7 @@ def call(body) {
 
             stage('Version Management'){
 
-             if (!(manageNodeVersion() == 'error')){
+             if (manageNodeVersion() == 'error'){
                  echo "incorrect version format in package.json"
                  currentBuild.result = 'FAILED'
                  throw new Exception("Invalid version format in package.json")
