@@ -9,6 +9,8 @@ def call() {
 
     def cleanVersion = getCleanVersion(props.version)
 
+    echo cleanVersion
+
     if (cleanVersion == 'error') return 'error'
 
     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/))
@@ -36,7 +38,10 @@ def getCleanVersion(String version){
     def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (version =~ parser)
 
+    echo match.group()
+
     if(match.matches()) {
+        echo "match"
         return match.group()
     }
     else return "error"
