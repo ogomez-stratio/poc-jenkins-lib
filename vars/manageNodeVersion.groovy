@@ -7,6 +7,8 @@ def call() {
 
     def nextVersion
 
+    echo props.version
+
     def cleanVersion = getCleanVersion(props.version)
 
     echo cleanVersion
@@ -34,6 +36,7 @@ def call() {
 @NonCPS
 def getCleanVersion(String version){
 
+    echo version
 
     def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (version =~ parser)
