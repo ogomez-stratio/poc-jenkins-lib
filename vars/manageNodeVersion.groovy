@@ -38,7 +38,7 @@ def getCleanVersion(String version){
 
     echo version
 
-    def parser = /(\d+\.)(\d+\.)(\d)/g
+    def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (version =~ parser)
 
     echo match.group()
