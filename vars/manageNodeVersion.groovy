@@ -20,7 +20,7 @@ def call() {
 
     props.version = nextVersion
 
-    def jsonOut = JsonOutput.toJson(props).
+    def jsonOut = JsonOutput.toJson(props)
 
 
     writeFile(file:'package.json', text: jsonOut)
@@ -31,6 +31,7 @@ def call() {
 
 @NonCPS
 def getCleanVersion(String version){
+
 
     def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (version =~ parser)
