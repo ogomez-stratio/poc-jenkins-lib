@@ -20,7 +20,7 @@ def call() {
 
     props.version = nextVersion
 
-    def jsonOut = JsonOutput.prettyPrint(props)
+    def jsonOut = JsonOutput.toJson(props).
 
 
     writeFile(file:'package.json', text: jsonOut)
