@@ -58,16 +58,16 @@ def call(body) {
              */
             stage('publish build') {
 
-//                withCredentials([usernamePassword(credentialsId: 'docker-credentials',
-//                        usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
-//                    echo 'Start to push image to repo'
-//                    script {
-//                        echo dockerBuilder("${config.dockerRepo}","${config.containerName}", "${env.ACR_USR}",
-//                                "${env.ACR_PWD}", getNodeVersion())
-//                    }
-//                    echo 'End to push image to repo'
-//
-//                }
+                withCredentials([usernamePassword(credentialsId: 'docker-credentials',
+                        usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
+                    echo 'Start to push image to repo'
+                    script {
+                        echo dockerBuilder("${config.dockerRepo}","${config.containerName}", "${env.ACR_USR}",
+                                "${env.ACR_PWD}", getNodeVersion())
+                    }
+                    echo 'End to push image to repo'
+
+                }
             }
 
             /**
@@ -77,7 +77,7 @@ def call(body) {
              */
             stage('Push new version to Git') {
 
-              echo gitPush("${config.gitRepo}","${config.gitCredentials}")
+              gitPush("${config.gitRepo}","${config.gitCredentials}")
             }
 
         } catch (err) {

@@ -6,7 +6,5 @@ def call(String gitRepo, String gitCredentialsId){
         def status = action('git status')
         def push = action('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@'+gitRepo)
 
-        return commit + status + push
-
     }
 }

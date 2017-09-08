@@ -9,8 +9,6 @@ def call() {
 
     def cleanVersion = getCleanVersion(props.version)
 
-    echo cleanVersion
-
     if (cleanVersion == 'error') return 'error'
 
     if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/))
@@ -28,16 +26,12 @@ def call() {
 
     writeFile(file:'package.json', text: prettyOut)
 
-    echo prettyOut
-
     return "Version to build: " + nextVersion
 
 }
 
 @NonCPS
 def getCleanVersion(String version){
-
-    echo version
 
     def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (version =~ parser)
