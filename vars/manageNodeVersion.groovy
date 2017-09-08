@@ -24,6 +24,8 @@ def call() {
 
     def jsonOut = JsonOutput.prettyPrint(props)
 
+    echo jsonOut
+
 
     writeFile(file:'package.json', text: jsonOut)
 
