@@ -39,10 +39,7 @@ def getCleanVersion(String version){
     def parser = /(\d+\.)(\d+\.)(\d)/
     def match = (version =~ parser)
 
-    echo match.group()
-
-    if(match.matches()) {
-        echo "match"
+    if(match.find()) {
         return match.group()
     }
     else return "error"
