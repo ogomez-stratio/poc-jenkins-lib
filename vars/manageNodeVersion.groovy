@@ -22,12 +22,13 @@ def call() {
 
     props.version = nextVersion
 
-    def jsonOut = JsonOutput.prettyPrint(props)
+    def jsonOut = JsonOutput.toJson(props)
 
-    echo jsonOut
+    def prettyOut  = JsonOutput.prettyPrint(jsonOut)
 
+    writeFile(file:'package.json', text: prettyOut)
 
-    writeFile(file:'package.json', text: jsonOut)
+    echo prettyOut
 
     return "Version to build: " + nextVersion
 
