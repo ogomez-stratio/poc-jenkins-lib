@@ -7,8 +7,6 @@ def call() {
 
     def nextVersion
 
-    echo props.version
-
     def cleanVersion = getCleanVersion(props.version)
 
     echo cleanVersion
