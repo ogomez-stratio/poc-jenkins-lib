@@ -10,7 +10,8 @@ def call(body) {
         currentBuild.result = 'SUCCESS'
 
 
-        echo 'tag: '+ env.GIT_TAG_NAME
+        echo 'tag: '
+        echo env.GIT_TAG_NAME
 
           try {
 
