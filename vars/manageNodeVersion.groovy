@@ -9,11 +9,9 @@ def call() {
 
     def cleanVersion = getCleanVersion(props.version)
 
-    echo env.GIT_TAG_NAME
-
     if (cleanVersion == 'error') return 'error'
 
-    if (env.GIT_TAG_NAME == null || !(env.GIT_TAG_NAME ==~ /^v\d+\.\d+\.\d+$/))
+    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/))
 
         nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
 
