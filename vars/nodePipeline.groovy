@@ -12,7 +12,7 @@ def call(body) {
 
         echo 'git branch'
 
-        echo env.GIT_TAG_NAME
+        echo "${GIT_TAG_NAME}"
 
         try {
 
@@ -48,7 +48,7 @@ def call(body) {
              */
             stage('build') {
                 script {
-                    echo yarnBuilder()
+//                    echo yarnBuilder()
                 }
             }
 
@@ -81,7 +81,7 @@ def call(body) {
              */
             stage('Push new version to Git') {
 
-              gitPush("${config.gitRepo}","${config.gitCredentials}")
+//              gitPush("${config.gitRepo}","${config.gitCredentials}")
             }
 
         } catch (err) {
