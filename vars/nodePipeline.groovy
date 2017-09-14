@@ -9,6 +9,12 @@ def call(body) {
 
         currentBuild.result = 'SUCCESS'
 
+        echo env.GIT_TAG_NAME
+
+        echo 'git branch'
+
+        echo '${GIT_BRANCH}'
+
 
         try {
 
