@@ -13,7 +13,7 @@ def call(body) {
 
         echo 'git branch'
 
-        echo '${GIT_BRANCH}'
+        echo "${GIT_BRANCH}"
 
 
         try {
