@@ -12,7 +12,9 @@ def call(body) {
 
         echo 'git branch'
 
-        echo "${BRANCH_NAME}"
+        echo "${GIT_TAG_NAME}"
+
+        echo env.GIT_TAG_NAME
 
         try {
 
