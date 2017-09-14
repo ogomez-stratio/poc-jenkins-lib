@@ -10,13 +10,9 @@ def call(body) {
         currentBuild.result = 'SUCCESS'
 
 
-        echo 'git branch'
+        echo 'tag: '+"${GIT_TAG_NAME}"
 
-        echo "${GIT_TAG_NAME}"
-
-        echo env.GIT_TAG_NAME
-
-        try {
+          try {
 
             /**
              * Checkout from scm to prepare the workspace for the pipeline
