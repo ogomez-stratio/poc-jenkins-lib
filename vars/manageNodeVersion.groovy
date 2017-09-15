@@ -13,8 +13,11 @@ def call(String type) {
 
     switch (type){
         case 'build': nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
+            break
         case 'RC' :   nextVersion = cleanVersion + '.RC-' + env.BUILD_NUMBER
+            break
         case 'version': nextVersion ='v'+cleanVersion
+            break
     }
 
 
