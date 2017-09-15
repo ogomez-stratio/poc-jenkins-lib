@@ -1,6 +1,6 @@
 import groovy.json.*
 
-def call() {
+def call(String type) {
 
     def json = readFile(file:'package.json')
     def props = new JsonSlurperClassic().parseText(json)
@@ -11,12 +11,14 @@ def call() {
 
     if (cleanVersion == 'error') return 'error'
 
-    if (env.TAG_NAME == null || !(env.TAG_NAME ==~ /^v\d+\.\d+\.\d+$/))
+    switch (type){
+        case 'build': nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
+        case 'RC' :   nextVersion = cleanVersion + '.RC-' + env.BUILD_NUMBER
+        case 'version': nextVersion ='v'+cleanVersion
+    }
 
-        nextVersion = cleanVersion + '.build-' + env.BUILD_NUMBER
 
-    else
-        nextVersion ='v'+cleanVersion
+
 
     props.version = nextVersion
 
