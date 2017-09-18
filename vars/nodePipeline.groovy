@@ -5,9 +5,9 @@ def call(body) {
     body.delegate = config
     body()
 
-    node {
+    if (!isBuildEvent()) {
+        node {
 
-        if (isBuildEvent()) {
 
             currentBuild.result = 'SUCCESS'
 
