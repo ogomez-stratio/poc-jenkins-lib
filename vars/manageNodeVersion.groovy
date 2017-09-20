@@ -38,7 +38,7 @@ def call(String type) {
 @NonCPS
 def getCleanVersion(String version){
 
-    def parser = /(\d+\.)(\d+\.)(\d)/
+    def parser = /(\d+\.)(\d+\.)(\d+)/
     def match = (version =~ parser)
 
     if(match.find()) {
