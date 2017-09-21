@@ -43,8 +43,12 @@ def call(body) {
             }
 
             /**
-             * TODO TEST PARALLEL STAGE
+             * Maven Test Stage
              */
+            stage('Maven Test') {
+
+                echo mavenBuilder("${config.pomPath}")
+            }
 
             /**
              * Build, Tag and publish the Docker Image into Docker Repository (Currently Azure Container Registry)
