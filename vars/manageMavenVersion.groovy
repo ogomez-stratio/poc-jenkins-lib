@@ -2,7 +2,7 @@ import groovy.json.*
 
 def call(String type,String path) {
 
-    def pom = readMavenPom file: 'path/pom.xml'
+    def pom = readMavenPom file: path+'pom.xml'
     env.POM_VERSION = pom.version
 
     def nextVersion
