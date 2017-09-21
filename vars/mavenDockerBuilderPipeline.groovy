@@ -43,15 +43,6 @@ def call(body) {
             }
 
             /**
-             * Install yarn dependencies and build the proyect with the new version.
-             */
-            stage('build & unit test') {
-                script {
-                    echo mavenBuilder("${config.pomPath}")
-                }
-            }
-
-            /**
              * TODO TEST PARALLEL STAGE
              */
 

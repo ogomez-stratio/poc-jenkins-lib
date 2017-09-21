@@ -3,7 +3,7 @@ def call(String dockerRepo,String containerName, String dockerUser, String docke
     def login
     def tag
     def push
-    def build = action("mvn -f "+path+"pom.xml package docker:build")
+    def build = action("mvn -f "+path+"pom.xml clean package docker:build")
     if (dockerRepo != null || dockerRepo == '') {
         login = action('docker login ' + ' -u ' + "${dockerUser}" + ' -p ' + "${dockerPassword}")
         tag = action('docker tag ' + "${containerName}" + ' ' + "${dockerUser}" + '/' + "${containerName}" + ':' + version)
