@@ -57,8 +57,8 @@ def call(body) {
                         usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
                     echo 'Start to push image to repo'
                     script {
-                        echo dockerMavenPublisher("${config.pomPath}")
-                        echo dockerMavenBuilder("${config.dockerBuildRepo}", "${config.containerName}", "${env.ACR_USR}",
+                        echo dockerMavenBuilder("${config.pomPath}")
+                        echo dockerMavenPublisher("${config.dockerBuildRepo}", "${config.containerName}", "${env.ACR_USR}",
                                 "${env.ACR_PWD}", env.NEXT_VERSION)
                     }
                     echo 'End to push image to repo'
