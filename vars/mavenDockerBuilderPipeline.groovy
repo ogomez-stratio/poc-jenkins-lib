@@ -1,5 +1,3 @@
-
-
 def call(body) {
 
     def config = [:]
@@ -8,8 +6,6 @@ def call(body) {
     body()
 
     node {
-
-
         currentBuild.result = 'SUCCESS'
 
         try {
@@ -28,7 +24,7 @@ def call(body) {
 
             stage('Version Management') {
 
-                def result = vars.manageMavenVersion("build", "${config.pomPath}")
+                def result = manageMavenVersion("build", "${config.pomPath}")
 
                 if (result == 'error') {
 
@@ -61,8 +57,8 @@ def call(body) {
                         usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
                     echo 'Start to push image to repo'
                     script {
-                        echo vars.dockerMavenPublisher("${config.pomPath}")
-                        echo vars.dockerMavenBuilder("${config.dockerBuildRepo}", "${config.containerName}", "${env.ACR_USR}",
+                        echo dockerMavenPublisher("${config.pomPath}")
+                        echo dockerMavenBuilder("${config.dockerBuildRepo}", "${config.containerName}", "${env.ACR_USR}",
                                 "${env.ACR_PWD}", env.NEXT_VERSION)
                     }
                     echo 'End to push image to repo'
@@ -75,7 +71,7 @@ def call(body) {
              */
             stage('publish RC Build') {
 
-                env.NEXT_VERSION = vars.manageMavenVersion("RC", "${config.pomPath}")
+                env.NEXT_VERSION = manageMavenVersion("RC", "${config.pomPath}")
 
                 withCredentials([usernamePassword(credentialsId: "${config.registryCredentialsId}",
                         usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
@@ -86,7 +82,7 @@ def call(body) {
                             input message: "Does Pre-Production look good?"
                         }
                         // this will kill any job which is still in the input step
-                        echo vars.dockerMavenPublisher("${config.dockerRcRepo}", "${config.containerName}", "${env.ACR_USR}",
+                        echo dockerMavenPublisher("${config.dockerRcRepo}", "${config.containerName}", "${env.ACR_USR}",
                                 "${env.ACR_PWD}", env.NEXT_VERSION,"${config.pomPath}")
 
                         milestone 2
