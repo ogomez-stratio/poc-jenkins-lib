@@ -79,7 +79,7 @@ def call(body) {
                     script {
                         milestone 1
                         timeout(time: 10, unit: 'MINUTES') {
-                            input message: "Does Pre-Production look good?"
+                            input message: "You're going to publish RC:"+env.NEXT_VERSION + " to: "+ "${config.dockerRcRepo}"+" Do you want to continue?"
                         }
                         // this will kill any job which is still in the input step
                         echo dockerMavenPublisher("${config.dockerRcRepo}", "${config.containerName}", "${env.ACR_USR}",
