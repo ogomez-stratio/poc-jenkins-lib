@@ -45,7 +45,7 @@ def call(body) {
              */
             stage('Maven Test') {
 
-                echo vars.mavenBuilder("${config.pomPath}")
+                echo mavenBuilder("${config.pomPath}")
             }
 
             /**
