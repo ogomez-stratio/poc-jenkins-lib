@@ -28,7 +28,7 @@ def call(body) {
 
             stage('Version Management') {
 
-                def result = vars.manageNodeVersion("${config.buildType}")
+                def result = manageNodeVersion("${config.buildType}")
 
                 if (result == 'error') {
 
@@ -48,7 +48,7 @@ def call(body) {
              */
             stage('build') {
                 script {
-                    echo vars.yarnBuilder()
+                    echo yarnBuilder()
                 }
             }
 
@@ -65,8 +65,8 @@ def call(body) {
                         usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
                     echo 'Start to push image to repo'
                     script {
-                        echo vars.dockerBuilder "${config.dockerRepo}"
-                        echo vars.dockerPublisher("${config.dockerRepo}", "${config.containerName}", "${env.ACR_USR}",
+                        echo dockerBuilder "${config.dockerRepo}"
+                        echo dockerPublisher("${config.dockerRepo}", "${config.containerName}", "${env.ACR_USR}",
                                 "${env.ACR_PWD}", "${env.NEXT_VERSION}")
                     }
                     echo 'End to push image to repo'
