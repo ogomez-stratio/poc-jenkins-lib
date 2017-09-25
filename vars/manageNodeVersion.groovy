@@ -1,3 +1,5 @@
+
+
 import groovy.json.*
 
 def call(String type) {
@@ -22,16 +24,16 @@ def call(String type) {
 
 
 
+/** de momento no acatualizaremos el package.json*/
+//    props.version = nextVersion
+//
+//    def jsonOut = JsonOutput.toJson(props)
+//
+//    def prettyOut  = JsonOutput.prettyPrint(jsonOut)
+//
+//    writeFile(file:'package.json', text: prettyOut)
 
-    props.version = nextVersion
-
-    def jsonOut = JsonOutput.toJson(props)
-
-    def prettyOut  = JsonOutput.prettyPrint(jsonOut)
-
-    writeFile(file:'package.json', text: prettyOut)
-
-    return "Version to build: " + nextVersion
+    return nextVersion
 
 }
 

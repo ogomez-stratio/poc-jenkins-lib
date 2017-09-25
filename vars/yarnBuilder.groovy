@@ -1,6 +1,8 @@
+
+
 def call() {
 
-    def installRet= action('yarn install')
-    def buildRet= action('yarn build')
+    def installRet= vars.action('yarn install')
+    def buildRet= vars.action('yarn build')
     return installRet + buildRet
 }

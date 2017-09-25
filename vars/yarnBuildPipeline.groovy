@@ -1,3 +1,5 @@
+
+
 def call(body) {
 
     def config = [:]
@@ -26,7 +28,7 @@ def call(body) {
 
             stage('Version Management') {
 
-                def result = manageNodeVersion('build')
+                def result = vars.manageNodeVersion("${config.buildType}")
 
                 if (result == 'error') {
 
@@ -34,7 +36,10 @@ def call(body) {
                     currentBuild.result = 'FAILED'
                     throw new Exception("Invalid version format in package.json")
 
-                } else echo result
+                } else{
+                    env.NEXT_VERSION = result
+                    echo result
+                }
 
             }
 
@@ -43,7 +48,7 @@ def call(body) {
              */
             stage('build') {
                 script {
-                    echo yarnBuilder()
+                    echo vars.yarnBuilder()
                 }
             }
 
@@ -56,27 +61,18 @@ def call(body) {
              */
             stage('publish build') {
 
-                withCredentials([usernamePassword(credentialsId: 'docker-credentials',
+                withCredentials([usernamePassword(credentialsId: "${config.registryCredentialsId}",
                         usernameVariable: 'ACR_USR', passwordVariable: 'ACR_PWD')]) {
                     echo 'Start to push image to repo'
                     script {
-                        echo dockerBuilder("${config.dockerRepo}", "${config.containerName}", "${env.ACR_USR}",
-                                "${env.ACR_PWD}", getNodeVersion())
+                        echo vars.dockerBuilder "${config.dockerRepo}"
+                        echo vars.dockerPublisher("${config.dockerRepo}", "${config.containerName}", "${env.ACR_USR}",
+                                "${env.ACR_PWD}", "${env.NEXT_VERSION}")
                     }
                     echo 'End to push image to repo'
 
                 }
             }
-
-//                /**
-//                 * Push the new version to git repository.
-//                 * Example of new build 1.0.1.build-83
-//                 * Example of new TAG (stable version capable promote to productive environments
-//                 */
-//                stage('Push new version to Git') {
-//
-//                    gitPush("${config.gitRepo}", "${config.gitCredentials}")
-//                }
 
         } catch (err) {
             currentBuild.result = 'FAILED'
